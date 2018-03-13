@@ -1,6 +1,14 @@
 {
   "presets": ["stage-2"],
   "plugins": [
-    "transform-class-properties"
+    "transform-class-properties",
+    ["module-resolver", {
+      "alias": {
+        "@classes": "./src/classes",
+        "@objects": "./src/objects",
+        "@utils": "./src/utils",
+        "@root": "./src"
+      }
+    }]
   ]
 }
