@@ -1,5 +1,3 @@
-import * as THREE from 'three';
-
 import Renderer from './classes/Renderer';
 import Scene from './classes/Scene';
 import Camera from './classes/Camera';

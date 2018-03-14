@@ -5,8 +5,7 @@ export default ({
   material,
   textureUrl,
   position = [0, 0, 0],
-  rotation = [0, 0, 0],
-  params,
+  rotation = [0, 0, 0], params,
 }) => {
   if (textureUrl) {
     const texture = new THREE.TextureLoader().load(textureUrl);
