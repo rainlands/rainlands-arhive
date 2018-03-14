@@ -1,8 +1,9 @@
-import Renderer from './classes/Renderer';
-import Scene from './classes/Scene';
-import Camera from './classes/Camera';
+import Renderer from './core/Renderer';
+import Scene from './core/Scene';
+import Camera from './core/Camera';
 
 import objectGenerator from './utils/objectGenerator';
+import Cube from './classes/Cube';
 
 // OBJECTS
 import ground from './objects/ground';
@@ -20,6 +21,17 @@ export default class Game {
     window.addEventListener('resize', this._resize);
 
     this._scene.addElement(ground);
+    this._scene.addObject(new Cube({
+      size: [1, 1, 1],
+      position: [0.435, 3, 0],
+      mass: 1,
+    }));
+
+    this._scene.addObject(new Cube({
+      size: [1, 1, 1],
+      position: [0, 0, 0],
+      mass: 0,
+    }));
     this._renderer.render(this.DOMElement);
 
     this._resize();
@@ -28,6 +40,8 @@ export default class Game {
 
   _loop = () => {
     requestAnimationFrame(this._loop);
+
+    this._scene.update();
 
     this._renderer.entity.render(this._scene.entity, this._camera.entity);
   }

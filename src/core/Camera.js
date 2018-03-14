@@ -8,7 +8,7 @@ export default class Camera {
       0.1,
       1000,
     );
-    this.camera.position.set(1, 0.5, 2);
+    this.camera.position.set(1, 1, 5);
   }
 
   get entity() {
