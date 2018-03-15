@@ -6,9 +6,11 @@ import Scene, { addToScene } from './scene';
 import Camera from './camera';
 import objectGenerator from '../utils/objectGenerator';
 
+import { createCube, createCubeGroup } from '../entities/cube';
 import { initializeControls, animateMovementTick } from '../utils/controls';
 
 import { GAME_ROOT } from '../constants';
+import grassTexture from '../entities/textures/grassTop.png';
 
 
 /**
@@ -30,26 +32,11 @@ let tick = (cb) => {
 const initialize = () => {
   addToScene([
     objectGenerator({
-      geometry: new THREE.BoxGeometry(1, 1, 1),
-      material: new THREE.MeshLambertMaterial({ color: 'red' }),
-      position: [0, 0, 0],
-      params: {
-        castShadow: true,
-      },
-    }),
-    objectGenerator({
-      geometry: new THREE.BoxGeometry(1, 1, 1),
-      material: new THREE.MeshLambertMaterial({ color: 'red' }),
-      position: [1, 0, 1],
-      params: {
-        castShadow: true,
-      },
-    }),
-    objectGenerator({
       geometry: new THREE.PlaneGeometry(1024, 1024, 1024),
       material: new THREE.MeshLambertMaterial({ side: THREE.DoubleSide }),
       rotation: [90, 0, 0],
       position: [0, -0.5, 0],
+      textureUrl: grassTexture,
       params: {
         receiveShadow: true,
       },
@@ -61,12 +48,12 @@ const initialize = () => {
 
   // lights
 
-  const sun = new THREE.DirectionalLight(0xffffff, 0.8);
-  sun.position.set(1, 1, 1.5);
+  const sun = new THREE.DirectionalLight(0xffffff, 0.6);
+  sun.position.set(1, 2, 1.8);
 
   addToScene([
     new THREE.AxesHelper(1),
-    new THREE.HemisphereLight(0xffffff, 0xffffff, 0.2),
+    new THREE.HemisphereLight(0xffffff, 0xffffff, 0.5),
     sun,
   ]);
 }
