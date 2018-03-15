@@ -1,7 +1,3 @@
-import Game from './Game';
+import * as Game from './core/Game';
 
-const game = new Game(
-  document.querySelector('#root')
-);
-
-game.start();
+Game.start();

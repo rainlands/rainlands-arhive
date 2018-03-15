@@ -1,17 +1,14 @@
 import * as THREE from 'three';
+import { GAME_ROOT } from '../constants';
 
-export default class Camera {
-  constructor() {
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000,
-    );
-    this.camera.position.set(1, 1, 5);
-  }
+const camera = new THREE.PerspectiveCamera(
+  60,
+  GAME_ROOT.offsetWidth / GAME_ROOT.offsetHeight,
+  1,
+  1000,
+);
 
-  get entity() {
-    return this.camera;
-  }
-}
+camera.rotation.order = 'YXZ'; // XXX: IMPORTANT
+camera.position.set(-3, 2, 12);
+
+export default camera;

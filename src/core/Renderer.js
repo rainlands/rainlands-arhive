@@ -1,19 +1,12 @@
 import * as THREE from 'three';
 
-export default class Renderer {
-  constructor() {
-    this.renderer = new THREE.WebGLRenderer({
-      alpha: true,
-      antialias: true,
-    });
-    this.renderer.setClearColor(0x212121, 1);
-  }
+const renderer = new THREE.WebGLRenderer({
+  alpha: true,
+  antialias: true,
+});
 
-  get entity() {
-    return this.renderer;
-  }
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x87cefa, 1);
 
-  render = (DOMElement) => {
-    DOMElement.appendChild(this.renderer.domElement);
-  }
-}
+export default renderer;
