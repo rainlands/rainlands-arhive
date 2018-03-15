@@ -6,6 +6,8 @@ import Scene, { addToScene } from './scene';
 import Camera from './camera';
 import objectGenerator from '../utils/objectGenerator';
 
+import { initializeControls, animateMovementTick } from '../utils/controls';
+
 import { GAME_ROOT } from '../constants';
 
 
@@ -15,6 +17,8 @@ import { GAME_ROOT } from '../constants';
  */
 let tick = (cb) => {
   requestAnimationFrame(tick);
+
+  animateMovementTick();
 
   if (cb) cb();
 };
@@ -51,6 +55,9 @@ const initialize = () => {
       },
     }),
   ]);
+
+  // controls
+  initializeControls(Camera, Camera);
 
   // lights
 

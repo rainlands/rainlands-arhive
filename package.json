@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
+    "pointer-lock": "0.0.4",
     "stats-js": "^1.0.0-alpha1",
     "three": "^0.90.0"
   },

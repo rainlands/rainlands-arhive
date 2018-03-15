@@ -22,7 +22,7 @@ export default ({
 
   const object = new THREE.Mesh(geometry, material);
   object.rotation.set(...rotation);
-  object.position.set(...position);
+  object.position.set(...position.map(e => e + 0.5));
 
   Object.assign(object, params);
 
