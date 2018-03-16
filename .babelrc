@@ -4,9 +4,10 @@
     "transform-class-properties",
     ["module-resolver", {
       "alias": {
-        "@classes": "./src/classes",
-        "@objects": "./src/objects",
+        "@core": "./src/core",
+        "@resources": "./src/resources",
         "@utils": "./src/utils",
+        "!constants": "./src/constants.js",
         "@root": "./src"
       }
     }]

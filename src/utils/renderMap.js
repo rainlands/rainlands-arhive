@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import objectGenerator from './objectGenerator';
 
 
-export default (map) => {
+export default (map, blocks) => {
   const mergedGeometry = new THREE.Geometry();
   const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshLambertMaterial();

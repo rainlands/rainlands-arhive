@@ -2,7 +2,7 @@ import lock from 'pointer-lock';
 
 const movement = {};
 
-const handleMove = (initial, move, camera) => {
+const handleMove = (initial, camera, move) => {
   initial.x += move.dx;
 
   if (initial.y + move.dy < 90 && initial.y + move.dy > -90) {

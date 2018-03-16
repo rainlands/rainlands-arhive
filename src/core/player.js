@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { GAME_ROOT } from '../constants';
+import { GAME_ROOT } from '!constants';
 
-export default (() => {
+export default () => {
   const { offsetWidth, offsetHeight } = GAME_ROOT;
   const aspect = offsetWidth / offsetHeight;
 
@@ -19,4 +19,4 @@ export default (() => {
   });
 
   return camera;
-})();
+};

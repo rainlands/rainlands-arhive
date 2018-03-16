@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { GAME_ROOT } from '../constants';
+import { GAME_ROOT } from '!constants';
 
-export default (() => {
+export default () => {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
     antialias: true,
@@ -20,4 +20,4 @@ export default (() => {
   });
 
   return renderer;
-})();
+};
