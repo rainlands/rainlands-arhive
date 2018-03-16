@@ -6,6 +6,7 @@
 module.exports = {
   renderMap: require('./renderMap').default,
   objectGenerator: require('./objectGenerator').default,
+  stats: require('./stats').default,
   controls: require('./controls'),
   lights: require('./lights'),
 }

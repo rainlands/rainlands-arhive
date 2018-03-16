@@ -2,7 +2,7 @@ import Renderer from '@core/renderer';
 import Scene from '@core/scene';
 import Player from '@core/player';
 
-import { renderMap, controls, lights } from '@utils';
+import { stats, renderMap, controls, lights } from '@utils';
 import blocks from '@resources/blocks';
 
 // constants
@@ -11,6 +11,8 @@ import { GAME_ROOT } from '!constants';
 export default class Game {
   constructor() {
     this.blocks = blocks;
+
+    this.stats = stats();
 
     this.renderer = Renderer();
     this.scene = Scene();
@@ -22,11 +24,15 @@ export default class Game {
   // /////////////
 
   _tick = () => {
+    this.stats.begin();
+
     requestAnimationFrame(this._tick);
 
     controls.animateMovementTick(this.player);
 
     this.renderer.render(this.scene, this.player);
+
+    this.stats.end();
   };
 
   // //////////////////
@@ -38,7 +44,7 @@ export default class Game {
   };
 
   renderMap = (map) => {
-    renderMap(map, this.blocks);
+    this.addElementsToScene(renderMap(map, this.blocks))
   };
 
   start = () => {
