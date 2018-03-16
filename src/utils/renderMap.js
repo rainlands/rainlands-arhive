@@ -5,35 +5,37 @@ export default (map, blocks) => {
   const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
   const layers = {};
 
-  map.forEach((xLayer, x) => {
-    xLayer.forEach((yLayer, z) => {
-      yLayer.forEach((zBlock, y) => {
-        if (!layers[zBlock]) {
-          const geometry = new THREE.Geometry();
+  map.forEach((xLayer, y) => {
+    xLayer.forEach((yLayer, x) => {
+      yLayer.forEach((zBlock, z) => {
+        if (zBlock !== 0) {
+          if (!layers[zBlock]) {
+            const geometry = new THREE.Geometry();
 
-          const materials = blocks[zBlock].texture.map((texture) => {
-            const material = new THREE.MeshLambertMaterial();
-            material.map = new THREE.TextureLoader().load(texture);
+            const materials = blocks[zBlock].texture.map((texture) => {
+              const material = new THREE.MeshLambertMaterial();
+              material.map = new THREE.TextureLoader().load(texture);
 
-            return material;
-          });
+              return material;
+            });
 
-          const mesh = new THREE.Mesh(cubeGeometry);
-          mesh.position.set(x, y, z);
+            const mesh = new THREE.Mesh(cubeGeometry);
+            mesh.position.set(x, y, z);
 
-          mesh.updateMatrix();
-          geometry.merge(mesh.geometry, mesh.matrix);
+            mesh.updateMatrix();
+            geometry.merge(mesh.geometry, mesh.matrix);
 
-          layers[zBlock] = {
-            geometry,
-            materials,
-          };
-        } else {
-          const mesh = new THREE.Mesh(cubeGeometry);
-          mesh.position.set(x, y, z);
+            layers[zBlock] = {
+              geometry,
+              materials,
+            };
+          } else {
+            const mesh = new THREE.Mesh(cubeGeometry);
+            mesh.position.set(x, y, z);
 
-          mesh.updateMatrix();
-          layers[zBlock].geometry.merge(mesh.geometry, mesh.matrix);
+            mesh.updateMatrix();
+            layers[zBlock].geometry.merge(mesh.geometry, mesh.matrix);
+          }
         }
       });
     });
