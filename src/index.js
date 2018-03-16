@@ -3,11 +3,11 @@ import Game from './Game';
 const RainLands = new Game();
 RainLands.start();
 
-
+//
 // RainLands.renderMap(
-//   Array(3).fill(
-//     Array(3).fill(
-//       Array(3).fill(0)
+//   Array(50).fill(
+//     Array(50).fill(
+//       Array(50).fill(1)
 //     )
 //   )
 // )
@@ -19,7 +19,7 @@ RainLands.renderMap([
     [1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 1],
-    [1, 0, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1],
     [1, 1, 1, 1, 1, 1, 1, 0],
     [0, 1, 1, 1, 1, 1, 0, 0],
   ],
@@ -53,5 +53,5 @@ RainLands.renderMap([
     [0, 0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0, 0],
   ],
-  
+
 ])

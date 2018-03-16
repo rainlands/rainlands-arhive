@@ -1,14 +1,7 @@
 export default {
   1: {
     name: 'Stone',
-    texture: [
-      require('./textures/stone/1.jpg'),
-      require('./textures/stone/1.jpg'),
-      require('./textures/stone/1.jpg'),
-      require('./textures/stone/1.jpg'),
-      require('./textures/stone/1.jpg'),
-      require('./textures/stone/1.jpg'),
-    ]
+    texture: require('./textures/stone/1.jpg'),
   },
   2: {
     name: 'Grass',

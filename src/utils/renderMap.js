@@ -1,6 +1,24 @@
 import * as THREE from 'three';
 import objectGenerator from './objectGenerator';
 
+const loadMaterials = (materials) => {
+  let result;
+
+  if (Array.isArray(materials)) {
+    result = materials.map((texture) => {
+      const material = new THREE.MeshLambertMaterial();
+      material.map = new THREE.TextureLoader().load(texture);
+
+      return material;
+    });
+  } else {
+    result = new THREE.MeshLambertMaterial();
+    result.map = new THREE.TextureLoader().load(materials);
+  }
+
+  return result;
+};
+
 export default (map, blocks) => {
   const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
   const layers = {};
@@ -12,12 +30,7 @@ export default (map, blocks) => {
           if (!layers[zBlock]) {
             const geometry = new THREE.Geometry();
 
-            const materials = blocks[zBlock].texture.map((texture) => {
-              const material = new THREE.MeshLambertMaterial();
-              material.map = new THREE.TextureLoader().load(texture);
-
-              return material;
-            });
+            const materials = loadMaterials(blocks[zBlock].texture);
 
             const mesh = new THREE.Mesh(cubeGeometry);
             mesh.position.set(x, y, z);
