@@ -2,8 +2,7 @@ import * as THREE from 'three';
 import { GAME_ROOT } from '!constants';
 
 export default () => {
-  const { offsetWidth, offsetHeight } = GAME_ROOT;
-  const aspect = offsetWidth / offsetHeight;
+  const aspect = GAME_ROOT.offsetWidth / GAME_ROOT.offsetHeight;
 
   const camera = new THREE.PerspectiveCamera(60, aspect, 1, 1000);
 
@@ -13,8 +12,9 @@ export default () => {
   camera.aspect = aspect;
   camera.updateProjectionMatrix();
 
+
   window.addEventListener('resize', () => {
-    camera.aspect = aspect;
+    camera.aspect = GAME_ROOT.offsetWidth / GAME_ROOT.offsetHeight;
     camera.updateProjectionMatrix();
   });
 
