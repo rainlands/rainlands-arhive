@@ -1,17 +1,23 @@
 import * as THREE from 'three';
 import { GAME_ROOT } from '../constants';
 
-const renderer = new THREE.WebGLRenderer({
-  alpha: true,
-  antialias: true,
-});
+export default (() => {
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true,
+  });
 
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.setClearColor(0x87cefa, 1);
+  const { offsetWidth, offsetHeight } = GAME_ROOT;
 
-window.addEventListener('resize', () => {
-  renderer.setSize(GAME_ROOT.offsetWidth, GAME_ROOT.offsetHeight);
-})
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setClearColor(0x87cefa, 1);
+  renderer.setSize(offsetWidth, offsetHeight);
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
 
-export default renderer;
+  window.addEventListener('resize', () => {
+    renderer.setSize(offsetWidth, offsetHeight);
+  });
+
+  return renderer;
+})();

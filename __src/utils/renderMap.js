@@ -1,13 +1,14 @@
 import * as THREE from 'three';
 import objectGenerator from './objectGenerator';
 
+import grassTexture from '../entities/textures/grassTop.png';
 
 export default (map) => {
   const mergedGeometry = new THREE.Geometry();
   const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshLambertMaterial();
 
-  // material.map = new THREE.TextureLoader().load(grassTexture);
+  material.map = new THREE.TextureLoader().load(grassTexture);
 
   let i = 0;
 
@@ -16,7 +17,7 @@ export default (map) => {
       height.map((block, z) => {
         i += 1;
 
-        const mesh = new THREE.Mesh(boxGeometry);
+        const mesh = new THREE.Mesh(boxGeometry)
         mesh.position.set(x, y, z);
 
         mesh.updateMatrix();
@@ -32,6 +33,7 @@ export default (map) => {
 
   return rendered;
 };
+
 
 // export default (map) => {
 //   const mergedGeometry = new THREE.Geometry();

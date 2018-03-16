@@ -2,31 +2,34 @@ import lock from 'pointer-lock';
 
 const movement = {};
 
-const handleMove = (initial, move, camera) => {
+let BODY,
+  CAMERA;
+
+const handleMove = (initial, move) => {
   initial.x += move.dx;
 
   if (initial.y + move.dy < 90 && initial.y + move.dy > -90) {
     initial.y += move.dy;
   }
 
-  camera.rotation.y = -(initial.x * Math.PI / 180);
-  camera.rotation.x = -(initial.y * Math.PI / 180);
+  CAMERA.rotation.y = -(initial.x * Math.PI / 180);
+  CAMERA.rotation.x = -(initial.y * Math.PI / 180);
 
-  camera.updateProjectionMatrix();
+  CAMERA.updateProjectionMatrix();
 };
 
-const setupPointer = (mv, camera) => {
-  const initial = {
-    x: 0,
-    y: 0,
-  };
+const setupPointer = (movements) => {
+  const initial = { x: 0, y: 0 };
 
-  mv.on('data', handleMove.bind(0, initial, camera));
+  movements.on('data', handleMove.bind(0, initial));
 };
 
-export const initializeControls = (camera) => {
+export const initializeControls = (body, camera) => {
+  BODY = body;
+  CAMERA = camera;
+
   const pointer = lock(document.body);
-  pointer.on('attain', mv => setupPointer(mv, camera));
+  pointer.on('attain', setupPointer);
 
   window.addEventListener('keydown', ({ keyCode }) => {
     switch (keyCode) {
@@ -75,33 +78,33 @@ export const initializeControls = (camera) => {
   });
 };
 
-export const animateMovementTick = (camera) => {
+export const animateMovementTick = () => {
   if (movement.forward) {
-    camera.position.x -= Math.sin(camera.rotation.y) * 0.1;
-    camera.position.z -= Math.cos(camera.rotation.y) * 0.1;
+    BODY.position.x -= Math.sin(CAMERA.rotation.y) * 0.1;
+    BODY.position.z -= Math.cos(CAMERA.rotation.y) * 0.1;
   }
   if (movement.back) {
-    camera.position.x += Math.sin(camera.rotation.y) * 0.1;
-    camera.position.z += Math.cos(camera.rotation.y) * 0.1;
+    BODY.position.x += Math.sin(CAMERA.rotation.y) * 0.1;
+    BODY.position.z += Math.cos(CAMERA.rotation.y) * 0.1;
   }
   if (movement.left) {
-    camera.position.x += Math.sin(camera.rotation.y - Math.PI / 2) * 0.1;
-    camera.position.z += Math.cos(camera.rotation.y - Math.PI / 2) * 0.1;
+    BODY.position.x += Math.sin(CAMERA.rotation.y - Math.PI / 2) * 0.1;
+    BODY.position.z += Math.cos(CAMERA.rotation.y - Math.PI / 2) * 0.1;
   }
   if (movement.right) {
-    camera.position.x -= Math.sin(camera.rotation.y - Math.PI / 2) * 0.1;
-    camera.position.z -= Math.cos(camera.rotation.y - Math.PI / 2) * 0.1;
+    BODY.position.x -= Math.sin(CAMERA.rotation.y - Math.PI / 2) * 0.1;
+    BODY.position.z -= Math.cos(CAMERA.rotation.y - Math.PI / 2) * 0.1;
   }
   if (movement.top) {
-    camera.position.y += 0.1;
+    BODY.position.y += 0.1;
   }
   if (movement.bottom) {
-    camera.position.y -= 0.1;
+    BODY.position.y -= 0.1;
   }
   // if (movement.top) {
-  //   camera.velocity.y += 1;
+  //   BODY.velocity.y += 1;
   // }
   // if (movement.bottom) {
-  //   camera.velocity.y -= 1;
+  //   BODY.velocity.y -= 1;
   // }
 };
