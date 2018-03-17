@@ -31,11 +31,12 @@ const generateHeightMap = ({
 
 export default ({
   seed,
-  width,
-  height,
+  size,
   depth,
 }) => {
   const map = [];
+  const width = size * 16;
+  const height = size * 16;
 
   const heightMap = generateHeightMap({
     seed,

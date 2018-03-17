@@ -1,6 +1,13 @@
 import * as THREE from 'three';
 import objectGenerator from './objectGenerator';
 
+const isVisible = (map, x, y, z) =>
+  !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x]) ||
+  !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x + 1]) ||
+  !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x - 1]) ||
+  !(map[y + 1] && map[y + 1][z + 1] && map[y + 1][z + 1][x]) ||
+  !(map[y + 1] && map[y + 1][z - 1] && map[y + 1][z - 1][x]);
+
 const loadMaterials = (materials) => {
   let result;
 
@@ -23,47 +30,42 @@ export default (map, blocks) => {
   const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
   const layers = {};
 
-  map.forEach((xLayer, y) => {
-    xLayer.forEach((yLayer, z) => {
-      yLayer.forEach((zBlock, x) => {
+  map.forEach((zLayer, y) => {
+    zLayer.forEach((xLayer, z) => {
+      xLayer.forEach((block, x) => {
+        if (isVisible(map, x, y, z)) {
+          if (block !== 0) {
 
-        // XXX: RENDER ONLY TOP VISIBLE BLOCKS
-        // FIXME: RENDER ALSO IF THERE IS NOT BLOCKS NEARBY
-        if (
-          !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x]) ||
-          !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x + 1]) ||
-          !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x - 1]) ||
-          !(map[y + 1] && map[y + 1][z + 1] && map[y + 1][z + 1][x]) ||
-          !(map[y + 1] && map[y + 1][z - 1] && map[y + 1][z - 1][x])
-        ) {
+            const position = [
+              z - zLayer.length / 2,
+              y,
+              x - xLayer.length / 2
+            ]
 
-          if (zBlock !== 0) {
-            if (!layers[zBlock]) {
+            if (!layers[block]) {
               const geometry = new THREE.Geometry();
 
-              const materials = loadMaterials(blocks[zBlock].texture);
+              const materials = loadMaterials(blocks[block].texture);
 
               const mesh = new THREE.Mesh(cubeGeometry);
-              mesh.position.set(x, y, z);
+              mesh.position.set(...position);
 
               mesh.updateMatrix();
               geometry.merge(mesh.geometry, mesh.matrix);
 
-              layers[zBlock] = {
+              layers[block] = {
                 geometry,
                 materials,
               };
             } else {
               const mesh = new THREE.Mesh(cubeGeometry);
-              mesh.position.set(x, y, z);
+              mesh.position.set(...position);
 
               mesh.updateMatrix();
-              layers[zBlock].geometry.merge(mesh.geometry, mesh.matrix);
+              layers[block].geometry.merge(mesh.geometry, mesh.matrix);
             }
           }
-
         }
-
       });
     });
   });

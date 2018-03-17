@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
+    "lodash": "^4.17.5",
     "noisejs": "^2.1.0",
     "normalize-to-range": "^2.0.0",
     "pointer-lock": "0.0.4",

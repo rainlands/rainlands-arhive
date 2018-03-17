@@ -7,7 +7,7 @@ export default () => {
   const camera = new THREE.PerspectiveCamera(60, aspect, 0.3, 200);
 
   camera.rotation.order = 'YXZ'; // XXX: IMPORTANT
-  camera.position.set(-3, 2, 12);
+  camera.position.set(0, 15, 0);
 
   camera.aspect = aspect;
   camera.updateProjectionMatrix();
