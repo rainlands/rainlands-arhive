@@ -46,13 +46,13 @@ export default class Game {
   generateMap = () => {
     this.map = createRandomChunkedMap({
       seed: Math.floor(Math.random() * (65536 - 1 + 1) + 1), // 1 - 65536
-      size: 1,
-      depth: 16
+      size: 4,
+      depth: 32
     });
 
-    this.map.forEach((chunk) => {
+    this.map.forEach((chunk, index) => {
       this.addElementsToScene(
-        renderMap(chunk, this.blocks),
+        renderMap(chunk, index, 4, this.blocks),
       )
     })
   };

@@ -27,21 +27,22 @@ const generateHeightMap = ({
 export default ({ seed, size, depth }) => {
   const CHUNK_SIZE = 16;
 
-  const width = size * CHUNK_SIZE;
-  const height = size * CHUNK_SIZE;
-
   const heightMap = generateHeightMap({
     seed,
-    width,
-    height,
+    width: Math.pow(size, 2) * CHUNK_SIZE,
+    height: Math.pow(size, 2) * CHUNK_SIZE,
     depth,
   });
 
   const map = [];
 
-  for (let ch = 0; ch < size; ch++) {
-    const hLayer = ch % (size / 2);
-    const vLayer = (ch - hLayer) / (size / 2);
+  for (let ch = 0; ch < Math.pow(size, 2); ch++) {
+
+    const hLayer = ch % size;
+    const vLayer = (ch - hLayer) / (size);
+
+    console.log(hLayer, vLayer);
+
 
     map[ch] = [];
 
