@@ -26,30 +26,44 @@ export default (map, blocks) => {
   map.forEach((xLayer, y) => {
     xLayer.forEach((yLayer, z) => {
       yLayer.forEach((zBlock, x) => {
-        if (zBlock !== 0) {
-          if (!layers[zBlock]) {
-            const geometry = new THREE.Geometry();
 
-            const materials = loadMaterials(blocks[zBlock].texture);
+        // XXX: RENDER ONLY TOP VISIBLE BLOCKS
+        // FIXME: RENDER ALSO IF THERE IS NOT BLOCKS NEARBY
+        if (
+          !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x]) ||
+          !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x + 1]) ||
+          !(map[y + 1] && map[y + 1][z] && map[y + 1][z][x - 1]) ||
+          !(map[y + 1] && map[y + 1][z + 1] && map[y + 1][z + 1][x]) ||
+          !(map[y + 1] && map[y + 1][z - 1] && map[y + 1][z - 1][x])
+        ) {
 
-            const mesh = new THREE.Mesh(cubeGeometry);
-            mesh.position.set(x, y, z);
+          if (zBlock !== 0) {
+            if (!layers[zBlock]) {
+              const geometry = new THREE.Geometry();
 
-            mesh.updateMatrix();
-            geometry.merge(mesh.geometry, mesh.matrix);
+              const materials = loadMaterials(blocks[zBlock].texture);
 
-            layers[zBlock] = {
-              geometry,
-              materials,
-            };
-          } else {
-            const mesh = new THREE.Mesh(cubeGeometry);
-            mesh.position.set(x, y, z);
+              const mesh = new THREE.Mesh(cubeGeometry);
+              mesh.position.set(x, y, z);
 
-            mesh.updateMatrix();
-            layers[zBlock].geometry.merge(mesh.geometry, mesh.matrix);
+              mesh.updateMatrix();
+              geometry.merge(mesh.geometry, mesh.matrix);
+
+              layers[zBlock] = {
+                geometry,
+                materials,
+              };
+            } else {
+              const mesh = new THREE.Mesh(cubeGeometry);
+              mesh.position.set(x, y, z);
+
+              mesh.updateMatrix();
+              layers[zBlock].geometry.merge(mesh.geometry, mesh.matrix);
+            }
           }
+
         }
+
       });
     });
   });

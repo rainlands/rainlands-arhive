@@ -44,8 +44,6 @@ export default ({
     depth,
   })
 
-  console.log(heightMap);
-
   for (let i = 0; i < depth; i++) {
     map.push([]);
 
