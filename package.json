@@ -17,8 +17,10 @@
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
+    "noisejs": "^2.1.0",
     "pointer-lock": "0.0.4",
     "stats-js": "^1.0.0-alpha1",
+    "taira": "^3.2.0",
     "three": "^0.90.0"
   },
   "devDependencies": {

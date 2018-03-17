@@ -5,15 +5,19 @@ export default {
   },
   2: {
     name: 'Grass',
-    texture: [
-      require('./textures/grass/1.jpg'),
-      require('./textures/grass/1.jpg'),
-      require('./textures/grass/2.jpg'),
-      require('./textures/grass/3.jpg'),
-      require('./textures/grass/1.jpg'),
-      require('./textures/grass/1.jpg'),
-    ]
+    texture: require('./textures/grass/2.jpg'),
   },
+  // 2: {
+  //   name: 'Grass',
+  //   texture: [
+  //     require('./textures/grass/1.jpg'),
+  //     require('./textures/grass/1.jpg'),
+  //     require('./textures/grass/2.jpg'),
+  //     require('./textures/grass/3.jpg'),
+  //     require('./textures/grass/1.jpg'),
+  //     require('./textures/grass/1.jpg'),
+  //   ]
+  // },
   3: {
     name: 'Oak',
     texture: [

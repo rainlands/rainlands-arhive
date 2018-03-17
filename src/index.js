@@ -1,7 +1,12 @@
 import Game from './Game';
-import IslandMap from '@resources/maps/island.json';
+import { createRandomMap } from '@utils';
 
 const RainLands = new Game();
-RainLands.start();
 
-RainLands.renderMap(IslandMap)
+RainLands.renderMap(createRandomMap({
+  seed: Math.random(),
+  width: 5,
+  height: 5,
+  depth: 3,
+}));
+RainLands.start();

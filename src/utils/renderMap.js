@@ -24,8 +24,8 @@ export default (map, blocks) => {
   const layers = {};
 
   map.forEach((xLayer, y) => {
-    xLayer.forEach((yLayer, x) => {
-      yLayer.forEach((zBlock, z) => {
+    xLayer.forEach((yLayer, z) => {
+      yLayer.forEach((zBlock, x) => {
         if (zBlock !== 0) {
           if (!layers[zBlock]) {
             const geometry = new THREE.Geometry();
