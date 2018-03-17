@@ -4,10 +4,7 @@ import normalizeToRange from 'normalize-to-range';
 const randomNumberFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
 const generateHeightMap = ({
-  seed,
-  width,
-  height,
-  depth,
+  seed, width, height, depth,
 }) => {
   const noise = new Noise(seed);
 
@@ -16,74 +13,58 @@ const generateHeightMap = ({
   for (let x = 0; x < width; x++) {
     const layer = [];
     for (let y = 0; y < height; y++) {
-      layer.push(
-        Math.abs(noise.perlin2(x / 100, y / 100) * 100)
-      );
+      layer.push(Math.abs(noise.perlin2(x / 100, y / 100) * 100));
     }
 
     const normalized = normalizeToRange(layer, 0, depth);
 
-    heightMap.push(normalized)
+    heightMap.push(normalized);
   }
 
   return heightMap;
 };
 
-export default ({
-  seed,
-  size,
-  depth,
-}) => {
-  const width = size * 8;
-  const height = size * 8;
+export default ({ seed, size, depth }) => {
+  const CHUNK_SIZE = 16;
+
+  const width = size * CHUNK_SIZE;
+  const height = size * CHUNK_SIZE;
 
   const heightMap = generateHeightMap({
     seed,
     width,
     height,
     depth,
-  })
+  });
 
-  const expMap = Array(size).fill(
-    Array(depth).fill(
-      Array(4).fill(
-        Array(4).fill(null)
-      )
-    )
-  )
+  const map = [];
 
-  for (var ch = 0; ch < expMap.length; ch++) {
+  for (let ch = 0; ch < size; ch++) {
     const hLayer = ch % (size / 2);
     const vLayer = (ch - hLayer) / (size / 2);
 
-    for (let i = 0; i < depth; i++) {
+    map[ch] = [];
 
-      for (let j = hLayer * 4; j < (hLayer * 4) + 4; j++) {
-        for (let k = vLayer * 4; k < (vLayer * 4) + 4; k++) {
-          console.log(0);
+    for (let i = 0; i < depth; i++) {
+      map[ch][i] = [];
+
+      for (let j = 0; j < CHUNK_SIZE; j++) {
+        map[ch][i][j] = [];
+
+        for (let k = 0; k < CHUNK_SIZE; k++) {
+
+          const orJ = (hLayer * CHUNK_SIZE) + j;
+          const orK = (vLayer * CHUNK_SIZE) + k;
+
+          if (heightMap[orJ][orJ] > i) {
+            map[ch][i][j][k] = randomNumberFromRange(1, 2);
+          } else {
+            map[ch][i][j][k] = 0;
+          }
         }
       }
     }
   }
 
-  // for (let i = 0; i < depth; i++) {
-  //   map.push([]);
-  //
-  //   for (let j = 0; j < width; j++) {
-  //     map[i].push([]);
-  //
-  //     for (let k = 0; k < height; k++) {
-  //       const previousLayerCell = map[i - 1] && map[i - 1][j] && map[i - 1][j][k];
-  //
-  //       if (heightMap[k][j] > i) {
-  //         map[i][j].push(randomNumberFromRange(1, 2));
-  //       } else {
-  //         map[i][j].push(0);
-  //       }
-  //
-  //     }
-  //   }
-  // }
-
-  return expMap;
+  return map;
 };

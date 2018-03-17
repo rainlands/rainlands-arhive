@@ -2,7 +2,7 @@ import Renderer from '@core/renderer';
 import Scene from '@core/scene';
 import Player from '@core/player';
 
-import { stats, createRandomMap, renderMap, controls, lights } from '@utils';
+import { stats, createRandomMap, createRandomChunkedMap, renderMap, controls, lights } from '@utils';
 import blocks from '@resources/blocks';
 
 // constants
@@ -44,16 +44,17 @@ export default class Game {
   };
 
   generateMap = () => {
-    this.map = createRandomMap({
+    this.map = createRandomChunkedMap({
       seed: Math.floor(Math.random() * (65536 - 1 + 1) + 1), // 1 - 65536
-      size: 4,
-      depth: 2,
+      size: 1,
+      depth: 16
     });
 
-    this.addElementsToScene(renderMap(
-      this.map,
-      this.blocks,
-    ));
+    this.map.forEach((chunk) => {
+      this.addElementsToScene(
+        renderMap(chunk, this.blocks),
+      )
+    })
   };
   start = () => {
     controls.initializeControls(this.player);
