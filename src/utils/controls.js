@@ -3,10 +3,10 @@ import lock from 'pointer-lock';
 const movement = {};
 
 const handleMove = (initial, camera, move) => {
-  initial.x += move.dx;
+  initial.x += move.dx / 1.1;
 
   if (initial.y + move.dy < 90 && initial.y + move.dy > -90) {
-    initial.y += move.dy;
+    initial.y += move.dy / 1.1;
   }
 
   camera.rotation.y = -(initial.x * Math.PI / 180);
