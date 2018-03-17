@@ -51,9 +51,11 @@ export default class Game {
     });
 
     this.map.forEach((chunk, index) => {
-      this.addElementsToScene(
-        renderMap(chunk, index, 8, this.blocks),
-      )
+      setTimeout(() => {
+        this.addElementsToScene(
+          renderMap(chunk, index, 8, this.blocks),
+        )
+      }, index * 200);
     })
   };
   start = () => {

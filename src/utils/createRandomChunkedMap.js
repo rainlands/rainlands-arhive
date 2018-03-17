@@ -25,7 +25,7 @@ const generateHeightMap = ({
 };
 
 export default ({ seed, size, depth }) => {
-  const CHUNK_SIZE = 16;
+  const CHUNK_SIZE = 8;
 
   const heightMap = generateHeightMap({
     seed,
@@ -40,9 +40,6 @@ export default ({ seed, size, depth }) => {
 
     const hLayer = ch % size;
     const vLayer = (ch - hLayer) / (size);
-
-    console.log(hLayer, vLayer);
-
 
     map[ch] = [];
 

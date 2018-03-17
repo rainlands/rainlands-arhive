@@ -33,8 +33,6 @@ export default (chunk, chunkIndex, size, blocks) => {
   const hLayer = chunkIndex % size;
   const vLayer = (chunkIndex - hLayer) / (size);
 
-  console.log(hLayer, vLayer);
-
   chunk.forEach((zLayer, y) => {
     zLayer.forEach((xLayer, z) => {
       xLayer.forEach((block, x) => {
