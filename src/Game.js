@@ -58,6 +58,7 @@ export default class Game {
       }, index * 200);
     })
   };
+
   start = () => {
     controls.initializeControls(this.player);
     this.addElementsToScene(lights.createLights());

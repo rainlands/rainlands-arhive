@@ -6,7 +6,6 @@
 module.exports = {
   renderMap: require('./renderMap').default,
   objectGenerator: require('./objectGenerator').default,
-  createRandomMap: require('./createRandomMap').default,
   createRandomChunkedMap: require('./createRandomChunkedMap').default,
   stats: require('./stats').default,
   controls: require('./controls'),
