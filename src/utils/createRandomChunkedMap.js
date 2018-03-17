@@ -34,7 +34,6 @@ export default ({
   size,
   depth,
 }) => {
-  const map = [];
   const width = size * 8;
   const height = size * 8;
 
@@ -57,15 +56,14 @@ export default ({
     const hLayer = ch % (size / 2);
     const vLayer = (ch - hLayer) / (size / 2);
 
-    console.log(hLayer, vLayer);
+    for (let i = 0; i < depth; i++) {
 
-    // for (let i = 0; i < depth; i++) {
-    //   for (let j = layer * 4; j < (layer * 4) + 8; j++) {
-    //     for (let k = 0; k < height; k++) {
-    //
-    //     }
-    //   }
-    // }
+      for (let j = hLayer * 4; j < (hLayer * 4) + 4; j++) {
+        for (let k = vLayer * 4; k < (vLayer * 4) + 4; k++) {
+          console.log(0);
+        }
+      }
+    }
   }
 
   // for (let i = 0; i < depth; i++) {
@@ -87,5 +85,5 @@ export default ({
   //   }
   // }
 
-  return map;
+  return expMap;
 };

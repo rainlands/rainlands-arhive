@@ -7,6 +7,6 @@ import { createRandomChunkedMap } from '@utils';
 // RainLands.start();
 createRandomChunkedMap({
   seed: 123,
-  size: 4,
-  depth: 4,
+  size: 1,
+  depth: 1,
 })
