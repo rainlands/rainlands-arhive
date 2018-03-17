@@ -7,7 +7,6 @@ export default () => {
     // antialias: true,
   });
 
-
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.setClearColor(0x87cefa, 1);

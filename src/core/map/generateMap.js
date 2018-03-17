@@ -36,9 +36,8 @@ export default ({ seed, size, depth }) => {
   const map = [];
 
   for (let ch = 0; ch < Math.pow(size, 2); ch++) {
-
     const hLayer = ch % size;
-    const vLayer = (ch - hLayer) / (size);
+    const vLayer = (ch - hLayer) / size;
 
     map[ch] = [];
 
@@ -49,9 +48,8 @@ export default ({ seed, size, depth }) => {
         map[ch][i][j] = [];
 
         for (let k = 0; k < CHUNK_SIZE; k++) {
-
-          const orJ = (hLayer * CHUNK_SIZE) + j;
-          const orK = (vLayer * CHUNK_SIZE) + k;
+          const orJ = hLayer * CHUNK_SIZE + j;
+          const orK = vLayer * CHUNK_SIZE + k;
 
           if (heightMap[orJ][orK] > i) {
             map[ch][i][j][k] = randomNumberFromRange(1, 2);

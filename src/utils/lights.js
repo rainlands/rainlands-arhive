@@ -6,8 +6,5 @@ export const createLights = () => {
 
   const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.5);
 
-  return [
-    dirLight,
-    hemiLight,
-  ]
-}
+  return [dirLight, hemiLight];
+};

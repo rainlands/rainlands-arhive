@@ -19,27 +19,23 @@ const loadMaterials = (materials) => {
 };
 
 export default ({
-  chunk,
-  index,
-  mapSize,
-  blocks
+  chunk, index, mapSize, blocks,
 }) => {
   const cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
   const layers = {};
 
   const hLayer = index % mapSize;
-  const vLayer = (index - hLayer) / (mapSize);
+  const vLayer = (index - hLayer) / mapSize;
 
   chunk.forEach((zLayer, y) => {
     zLayer.forEach((xLayer, z) => {
       xLayer.forEach((block, x) => {
         if (block !== 0) {
-
           const position = [
-            (z - zLayer.length / 2) + (hLayer * xLayer.length),
+            z - zLayer.length / 2 + hLayer * xLayer.length,
             y,
-            (x - xLayer.length / 2) + (vLayer * xLayer.length)
-          ]
+            x - xLayer.length / 2 + vLayer * xLayer.length,
+          ];
 
           if (!layers[block]) {
             const geometry = new THREE.Geometry();

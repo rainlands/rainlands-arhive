@@ -12,7 +12,6 @@ export default () => {
   camera.aspect = aspect;
   camera.updateProjectionMatrix();
 
-
   window.addEventListener('resize', () => {
     camera.aspect = GAME_ROOT.offsetWidth / GAME_ROOT.offsetHeight;
     camera.updateProjectionMatrix();
