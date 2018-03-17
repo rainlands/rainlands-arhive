@@ -57,7 +57,7 @@ export default ({ seed, size, depth }) => {
           const orJ = (hLayer * CHUNK_SIZE) + j;
           const orK = (vLayer * CHUNK_SIZE) + k;
 
-          if (heightMap[orJ][orJ] > i) {
+          if (heightMap[orJ][orK] > i) {
             map[ch][i][j][k] = randomNumberFromRange(1, 2);
           } else {
             map[ch][i][j][k] = 0;
