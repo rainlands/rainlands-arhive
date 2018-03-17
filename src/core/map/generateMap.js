@@ -1,5 +1,6 @@
 import { Noise } from 'noisejs';
 import normalizeToRange from 'normalize-to-range';
+import { CHUNK_SIZE } from '!constants';
 
 const randomNumberFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -25,8 +26,6 @@ const generateHeightMap = ({
 };
 
 export default ({ seed, size, depth }) => {
-  const CHUNK_SIZE = 8;
-
   const heightMap = generateHeightMap({
     seed,
     width: Math.pow(size, 2) * CHUNK_SIZE,

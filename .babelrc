@@ -2,6 +2,7 @@
   "presets": ["stage-2"],
   "plugins": [
     "transform-class-properties",
+    "transform-export-extensions",
     ["module-resolver", {
       "alias": {
         "@core": "./src/core",

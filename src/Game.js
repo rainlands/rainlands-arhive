@@ -2,8 +2,9 @@ import Renderer from '@core/renderer';
 import Scene from '@core/scene';
 import Player from '@core/player';
 
-import { stats, createRandomMap, createRandomChunkedMap, renderMap, controls, lights } from '@utils';
+import { stats, controls, lights } from '@utils';
 import blocks from '@resources/blocks';
+import { renderMap, updateMap } from '@core/map';
 
 // constants
 import { GAME_ROOT } from '!constants';
@@ -29,6 +30,7 @@ export default class Game {
     requestAnimationFrame(this._tick);
 
     controls.animateMovementTick(this.player);
+    updateMap(this.scene, this.player.position);
 
     this.renderer.render(this.scene, this.player);
 
@@ -43,21 +45,7 @@ export default class Game {
     elementsArray.forEach(e => this.scene.add(e));
   };
 
-  generateMap = () => {
-    this.map = createRandomChunkedMap({
-      seed: Math.floor(Math.random() * (65536 - 1 + 1) + 1), // 1 - 65536
-      size: 8,
-      depth: 32
-    });
-
-    this.map.forEach((chunk, index) => {
-      setTimeout(() => {
-        this.addElementsToScene(
-          renderMap(chunk, index, 8, this.blocks),
-        )
-      }, index * 200);
-    })
-  };
+  generateMap = () => renderMap(this.scene);
 
   start = () => {
     controls.initializeControls(this.player);
