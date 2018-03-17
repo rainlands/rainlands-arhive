@@ -4,7 +4,7 @@ import { GAME_ROOT } from '!constants';
 export default () => {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
-    antialias: true,
+    // antialias: true,
   });
 
 
