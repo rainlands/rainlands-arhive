@@ -1,4 +1,5 @@
 import { Noise } from 'noisejs';
+import normalizeToRange from 'normalize-to-range';
 
 const randomNumberFromRange = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
 
@@ -13,14 +14,16 @@ const generateHeightMap = ({
   const heightMap = [];
 
   for (let x = 0; x < width; x++) {
-    heightMap.push([])
+    const layer = [];
     for (let y = 0; y < height; y++) {
-      heightMap[x].push(
-        Math.round(
-          noise.perlin2(x / 100, y / 100) * 100
-        )
+      layer.push(
+        Math.abs(noise.perlin2(x / 100, y / 100) * 100)
       );
     }
+
+    const normalized = normalizeToRange(layer, 0, depth);
+
+    heightMap.push(normalized)
   }
 
   return heightMap;
@@ -34,12 +37,14 @@ export default ({
 }) => {
   const map = [];
 
-  console.log(generateHeightMap({
+  const heightMap = generateHeightMap({
     seed,
     width,
     height,
     depth,
-  }));
+  })
+
+  console.log(heightMap);
 
   for (let i = 0; i < depth; i++) {
     map.push([]);
@@ -50,18 +55,25 @@ export default ({
       for (let k = 0; k < height; k++) {
         const previousLayerCell = map[i - 1] && map[i - 1][j] && map[i - 1][j][k];
 
-        if (previousLayerCell !== undefined) {
-          if (previousLayerCell !== 0) {
-            map[i][j].push(randomNumberFromRange(0, 2));
-          } else {
-            map[i][j].push(0);
-          }
-        } else {
+        if (heightMap[k][j] > i) {
           map[i][j].push(randomNumberFromRange(1, 2));
+        } else {
+          map[i][j].push(0);
         }
+
       }
     }
   }
 
   return map;
 };
+
+// if (previousLayerCell !== undefined) {
+//   if (previousLayerCell !== 0) {
+//     map[i][j].push(randomNumberFromRange(0, 2));
+//   } else {
+//     map[i][j].push(0);
+//   }
+// } else {
+//   map[i][j].push(randomNumberFromRange(1, 2));
+// }

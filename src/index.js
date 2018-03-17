@@ -5,8 +5,8 @@ const RainLands = new Game();
 
 RainLands.renderMap(createRandomMap({
   seed: Math.random(),
-  width: 5,
-  height: 5,
-  depth: 3,
+  width: 100,
+  height: 100,
+  depth: 10,
 }));
 RainLands.start();
