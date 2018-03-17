@@ -1,4 +1,5 @@
 import shortid from 'shortid';
+import isNegateZero from 'is-negative-zero';
 import blocks from '@resources/blocks';
 import { MAP_SIZE } from '!constants'
 
@@ -8,22 +9,26 @@ import renderChunk from './renderChunk';
 let GENERATED_MAP;
 const RENDERED_CHUNKS = [];
 
+const addToRenderedChunks = (x, y, name) => {
+  if (RENDERED_CHUNKS[x]) {
+    if (RENDERED_CHUNKS[x][y]) {
+      RENDERED_CHUNKS[x][y].push(name);
+    } else {
+      RENDERED_CHUNKS[x][y] = [name];
+    }
+  } else {
+    RENDERED_CHUNKS[x] = [];
+    RENDERED_CHUNKS[x][y] = [name];
+  }
+}
+
 const addChunkToScene = ({
   chunk,
   index,
   scene,
+  x,
+  y
 }) => {
-
-  const xPosition = index % MAP_SIZE;
-  const yPosition = (index - xPosition) / (MAP_SIZE);
-
-  if (RENDERED_CHUNKS[xPosition]) {
-    RENDERED_CHUNKS[xPosition][yPosition] = [];
-  } else {
-    RENDERED_CHUNKS[xPosition] = []
-    RENDERED_CHUNKS[xPosition][yPosition] = [];
-  }
-
   renderChunk({
     chunk,
     index,
@@ -36,7 +41,10 @@ const addChunkToScene = ({
       rendered.name = name;
 
       scene.add(rendered);
-      RENDERED_CHUNKS[xPosition][yPosition].push(name);
+
+      console.log(x, y);
+
+      addToRenderedChunks(x, y, name);
     })
 }
 
@@ -46,33 +54,36 @@ export const renderMap = (scene) => {
     size: MAP_SIZE,
     depth: 16
   });
-
-  GENERATED_MAP.forEach((chunk, index) => {
-    setTimeout(() => {
-      addChunkToScene({
-        chunk,
-        index,
-        scene,
-      })
-    });
-  })
 }
 
 export const updateMap = (scene, userPosition) => {
   const { x, z } = userPosition;
 
-  const xChunk = (x / 8).toFixed(0);
-  const zChunk = (z / 8).toFixed(0);
+  const xChunk = +(x / 8).toFixed(0);
+  const zChunk = +(z / 8).toFixed(0);
 
-  console.log(xChunk, zChunk);
+  const chunkIndex = (zChunk * 8) + xChunk;
 
+  if (
+    xChunk >= 0 &&
+    !isNegateZero(+xChunk) &&
+    zChunk >= 0 &&
+    !isNegateZero(+zChunk)
+  ) {
+    const renderedChunkMaterialsNames = RENDERED_CHUNKS[xChunk] && RENDERED_CHUNKS[xChunk][zChunk];
 
-  const renderedChunkMaterialsNames = RENDERED_CHUNKS[xChunk] && RENDERED_CHUNKS[xChunk][zChunk];
+    if (!renderedChunkMaterialsNames || renderedChunkMaterialsNames.length === 0) {
+      console.log('rendering...');
 
-  if (renderedChunkMaterialsNames) {
-    renderedChunkMaterialsNames.forEach((name) => {
-      const material = scene.getObjectByName(name);
-      scene.remove(material);
-    })
+      if (GENERATED_MAP[chunkIndex]) {
+        addChunkToScene({
+          chunk: GENERATED_MAP[chunkIndex],
+          index: chunkIndex,
+          scene,
+          x: xChunk,
+          y: zChunk,
+        })
+      }
+    }
   }
 }
