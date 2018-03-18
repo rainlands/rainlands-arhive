@@ -9,9 +9,10 @@ export default (scene, position, chunk) => {
   const geometry = new THREE.Geometry();
   const materials = loadMaterials(texture);
 
-  for (let y = 0; y < 2; y++) {
+  for (let y = 0; y < chunk + 1; y++) {
     for (let x = 0; x < CHUNK_SIZE; x++) {
       for (let z = 0; z < CHUNK_SIZE; z++) {
+
         const mesh = new THREE.Mesh(CUBE_GEOMETRY);
         mesh.position.set(
           x + position[1] * CHUNK_SIZE,
