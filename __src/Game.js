@@ -4,7 +4,7 @@ import Player from '@core/player';
 
 import { stats, controls, lights } from '@utils';
 import blocks from '@resources/blocks';
-import { generateWorld, renderChunks } from '@core/map';
+import { renderMap, updateMap } from '@core/map';
 
 // constants
 import { GAME_ROOT } from '!constants';
@@ -12,7 +12,6 @@ import { GAME_ROOT } from '!constants';
 export default class Game {
   constructor() {
     this.blocks = blocks;
-    this.seed = 123;
 
     this.stats = stats();
 
@@ -31,8 +30,9 @@ export default class Game {
     requestAnimationFrame(this._tick);
 
     controls.animateMovementTick(this.player);
+    updateMap(this.scene, this.player.position);
+
     this.renderer.render(this.scene, this.player);
-    renderChunks(this.player.position, this.seed);
 
     this.stats.end();
   };
@@ -45,9 +45,7 @@ export default class Game {
     elementsArray.forEach(e => this.scene.add(e));
   };
 
-  generateMap = () => {
-    generateWorld(this.seed);
-  }
+  generateMap = () => renderMap(this.scene);
 
   start = () => {
     controls.initializeControls(this.player);
