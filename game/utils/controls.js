@@ -100,10 +100,4 @@ export const animateMovementTick = (camera) => {
   if (movement.bottom) {
     camera.position.y -= speed;
   }
-  // if (movement.top) {
-  //   camera.velocity.y += 1;
-  // }
-  // if (movement.bottom) {
-  //   camera.velocity.y -= 1;
-  // }
 };

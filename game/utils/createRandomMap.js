@@ -66,13 +66,3 @@ export default ({
 
   return map;
 };
-
-// if (previousLayerCell !== undefined) {
-//   if (previousLayerCell !== 0) {
-//     map[i][j].push(randomNumberFromRange(0, 2));
-//   } else {
-//     map[i][j].push(0);
-//   }
-// } else {
-//   map[i][j].push(randomNumberFromRange(1, 2));
-// }
