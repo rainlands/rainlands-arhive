@@ -26,24 +26,24 @@ export const renderChunks = (scene, userPosition) => {
   if (Object.is(zChunk, -0)) zChunk = -1;
   else if (zChunk < 0) zChunk -= 1;
 
+  for (let i = -2; i < 3; i++) {
+    for (let j = -2; j < 3; j++) {
+      if (!GLOBAL_HEIGHT_MAP || GLOBAL_HEIGHT_MAP[xChunk + i] === undefined || GLOBAL_HEIGHT_MAP[xChunk + i][zChunk + j] === undefined) {
+        GLOBAL_HEIGHT_MAP = extendHeightMap(GLOBAL_HEIGHT_MAP, GLOBAL_NOISE, {
+          width: 1,
+          height: 1,
+          offsetWidth: zChunk + j,
+          offsetHeight: xChunk + i,
+          yMin: 0,
+          yMax: 4,
+        });
 
-  if (!GLOBAL_HEIGHT_MAP || GLOBAL_HEIGHT_MAP[xChunk] === undefined || GLOBAL_HEIGHT_MAP[xChunk][zChunk] === undefined) {
-    GLOBAL_HEIGHT_MAP = extendHeightMap(GLOBAL_HEIGHT_MAP, GLOBAL_NOISE, {
-      width: 1,
-      height: 1,
-      offsetWidth: zChunk,
-      offsetHeight: xChunk,
-      yMin: 0,
-      yMax: 8,
-    });
-
-    console.log(GLOBAL_HEIGHT_MAP[xChunk][zChunk]);
-
-
-    renderChunk(
-      scene,
-      [zChunk, xChunk],
-      GLOBAL_HEIGHT_MAP[xChunk][zChunk] || 0
-    );
+        renderChunk(
+          scene,
+          [zChunk + j, xChunk + i],
+          GLOBAL_HEIGHT_MAP[xChunk + i][zChunk + j],
+        );
+      }
+    }
   }
 };
