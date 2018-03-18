@@ -14,11 +14,11 @@ export const generateWorld = (seed) => {
   LOCAL_NOISE = new Noise(seed * Math.random());
 };
 
-export const renderChunks = (userPosition) => {
+export const renderChunks = (scene, userPosition) => {
   const { x, z } = userPosition;
 
-  let xChunk = +(x / 16).toFixed(0);
-  let zChunk = +(z / 16).toFixed(0);
+  let xChunk = +(x / CHUNK_SIZE).toFixed(0);
+  let zChunk = +(z / CHUNK_SIZE).toFixed(0);
 
   if (Object.is(xChunk, -0)) xChunk = -1;
   else if (xChunk < 0) xChunk -= 1;
@@ -38,6 +38,10 @@ export const renderChunks = (userPosition) => {
       yMax: 4,
     });
 
-    renderChunk(GLOBAL_HEIGHT_MAP[xChunk][zChunk]);
+    renderChunk(
+      scene,
+      [zChunk, xChunk],
+      GLOBAL_HEIGHT_MAP[xChunk][zChunk]
+    );
   }
 };

@@ -32,7 +32,7 @@ export default class Game {
 
     controls.animateMovementTick(this.player);
     this.renderer.render(this.scene, this.player);
-    renderChunks(this.player.position, this.seed);
+    renderChunks(this.scene, this.player.position, this.seed);
 
     this.stats.end();
   };
