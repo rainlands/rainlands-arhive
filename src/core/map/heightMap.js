@@ -23,11 +23,13 @@ export const extendHeightMap = (
 ) => {
   if (!map) map = {};
 
+  console.log(offsetWidth, offsetHeight);
+
   for (let x = offsetHeight; x < height + offsetHeight; x++) {
     if (!map[x]) map[x] = [];
 
     for (let z = offsetWidth; z < width + offsetWidth; z++) {
-      map[x][z] = Math.abs(noise.perlin2(+x / 100, +z / 100) * 100);
+      map[x][z] = Math.abs(noise.perlin2(x / 100, z / 100) * 100);
     }
 
     map[x] = normalize(map[x], yMin, yMax);

@@ -12,7 +12,7 @@ import { GAME_ROOT } from '!constants';
 export default class Game {
   constructor() {
     this.blocks = blocks;
-    this.seed = 123;
+    this.seed = Math.random();
 
     this.stats = stats();
 
