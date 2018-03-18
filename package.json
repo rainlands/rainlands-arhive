@@ -6,7 +6,8 @@
   "scripts": {
     "start": "parcel index.html -p 8080 --no-hmr",
     "lint": "npx eslint src -- --fix; exit 0",
-    "git:add": "git add ."
+    "git:add": "git add .",
+    "deploy": "parcel build index.html --public-url '.' && firebase deploy"
   },
   "pre-commit": [
     "lint",

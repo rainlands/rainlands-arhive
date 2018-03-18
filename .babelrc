@@ -4,11 +4,11 @@
     "transform-class-properties",
     ["module-resolver", {
       "alias": {
-        "@core": "./src/core",
-        "@resources": "./src/resources",
-        "@utils": "./src/utils",
-        "!constants": "./src/constants.js",
-        "@root": "./src"
+        "@core": "./game/core",
+        "@resources": "./game/resources",
+        "@utils": "./game/utils",
+        "!constants": "./game/constants.js",
+        "@root": "./game"
       }
     }]
   ]
