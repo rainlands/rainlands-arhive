@@ -1,18 +1,25 @@
+import { Noise } from 'noisejs';
+
 import { CHUNK_SIZE } from '!constants';
 import { generateHeightMap, extendHeightMap } from './heightMap';
+import renderChunk from './renderChunk';
 
-let HEIGHT_MAP;
+let HEIGHT_MAP,
+  GLOBAL_NOISE,
+  LOCAL_NOISE;
 
 export const generateWorld = (seed) => {
   // generate chunks height map
-  HEIGHT_MAP = generateHeightMap({
+
+  GLOBAL_NOISE = new Noise(seed);
+  LOCAL_NOISE = new Noise(seed * Math.random());
+
+  HEIGHT_MAP = generateHeightMap(GLOBAL_NOISE, {
     width: 2,
     height: 2,
     depth: 2,
     seed,
   });
-
-  console.log(HEIGHT_MAP);
 
   // generate detailed height map for every chunk
   // const detailedHeightMap = HEIGHT_MAP.map(
@@ -40,20 +47,14 @@ export const renderChunks = (userPosition, seed) => {
   if (HEIGHT_MAP[xChunk] === undefined || HEIGHT_MAP[xChunk][zChunk] === undefined) {
     console.log(`GENERATING HEIGHT MAP FOR ${xChunk}:${zChunk}`);
 
-    HEIGHT_MAP = extendHeightMap({
+    HEIGHT_MAP = extendHeightMap(HEIGHT_MAP, LOCAL_NOISE, {
       width: 1,
       height: 1,
       offsetWidth: zChunk,
       offsetHeight: xChunk,
       depth: 2,
     });
-  }
 
-  // const extendedHeightMap = extendHeightMap({
-  //   width: 2,
-  //   height: 2,
-  //   offsetWidth: 0,
-  //   offsetHeight: 2,
-  //   depth: 2,
-  // });
+    renderChunk(HEIGHT_MAP[xChunk][zChunk]);
+  }
 };

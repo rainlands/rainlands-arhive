@@ -1,9 +1,6 @@
 import { Noise } from 'noisejs';
 import normalizeToRange from 'normalize-to-range';
 
-let NOISE,
-  HEIGHT_MAP = {};
-
 const normalize = (object, depth) => {
   const array = normalizeToRange(Object.values(object), 0, depth);
   const keys = Object.keys(object);
@@ -13,36 +10,36 @@ const normalize = (object, depth) => {
   }, {});
 };
 
-export const generateHeightMap = ({
+export const generateHeightMap = (noise, {
   width, height, depth, seed,
 }) => {
-  NOISE = new Noise(seed);
+  const map = {};
 
   for (let x = 0; x < height; x++) {
-    if (!HEIGHT_MAP[x]) HEIGHT_MAP[x] = {};
+    if (!map[x]) map[x] = {};
 
     for (let z = 0; z < width; z++) {
-      HEIGHT_MAP[x][z] = Math.abs(NOISE.perlin2(x / 100, z / 100) * 100);
+      map[x][z] = Math.abs(noise.perlin2(x / 100, z / 100) * 100);
     }
 
-    HEIGHT_MAP[x] = normalize(HEIGHT_MAP[x], depth);
+    map[x] = normalize(map[x], depth);
   }
 
-  return HEIGHT_MAP;
+  return map;
 };
 
-export const extendHeightMap = ({
+export const extendHeightMap = (map, noise, {
   width, height, offsetWidth, offsetHeight, depth,
 }) => {
   for (let x = offsetHeight; x < height + offsetHeight; x++) {
-    if (!HEIGHT_MAP[x]) HEIGHT_MAP[x] = [];
+    if (!map[x]) map[x] = [];
 
     for (let z = offsetWidth; z < width + offsetWidth; z++) {
-      HEIGHT_MAP[x][z] = Math.abs(NOISE.perlin2(x / 100, z / 100) * 100);
+      map[x][z] = Math.abs(noise.perlin2(x / 100, z / 100) * 100);
     }
 
-    HEIGHT_MAP[x] = normalize(HEIGHT_MAP[x], depth);
+    map[x] = normalize(map[x], depth);
   }
 
-  return HEIGHT_MAP;
+  return map;
 };
