@@ -16,7 +16,7 @@ export default class Game {
 
     this.renderer = Renderer();
     this.scene = Scene();
-    this.player = Player();
+    this.player = Player(0, 20, 0);
   }
 
   // /////////////
@@ -46,8 +46,8 @@ export default class Game {
   generateMap = () => {
     this.map = createRandomMap({
       seed: Math.floor(Math.random() * (65536 - 1 + 1) + 1), // 1 - 65536
-      size: 4,
-      depth: 2,
+      size: 8,
+      depth: 20,
     });
 
     this.addElementsToScene(renderMap(
