@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import shortid from 'shortid';
+import { CHUNK_SIZE } from '!constants'
 import { loadMaterials } from './materials';
 
 import GRASS_TEXTURE from '@resources/blocks/textures/grass/2.jpg';
@@ -7,7 +8,8 @@ import GRASS_TEXTURE from '@resources/blocks/textures/grass/2.jpg';
 const CHUNKS_MAP = {};
 const CUBE_GEOMETRY = new THREE.BoxGeometry(1, 1, 1);
 
-export const renderChunk = ({ scene, position, height }) => {
+export const renderChunk = ({ scene, position, map }) => {
+  const geometry = new THREE.Geometry();
   const { x, z } = position;
   const ID = shortid();
 
@@ -15,15 +17,26 @@ export const renderChunk = ({ scene, position, height }) => {
   CHUNKS_MAP[x][z] = ID;
 
   setTimeout(() => {
-    const geometry = new THREE.Geometry();
-    const mesh = new THREE.Mesh(
-      CUBE_GEOMETRY,
-      loadMaterials(GRASS_TEXTURE),
-    );
-    mesh.position.set(x, height, z);
+
+    Object.keys(map).forEach((i) => {
+      Object.keys(map[i]).forEach((j) => {
+        const height = map[i][j];
+
+        const mesh = new THREE.Mesh(CUBE_GEOMETRY);
+        mesh.position.set(
+          Number(i) + (CHUNK_SIZE * x),
+          height,
+          Number(j) + (CHUNK_SIZE * z),
+        );
+        mesh.updateMatrix();
+        geometry.merge(mesh.geometry, mesh.matrix);
+      })
+    })
+
+    const mesh = new THREE.Mesh(geometry, loadMaterials(GRASS_TEXTURE));
     mesh.name = ID;
 
-    scene.add(mesh)
+    scene.add(mesh);
   });
 };
 
