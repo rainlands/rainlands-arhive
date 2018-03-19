@@ -25,7 +25,7 @@ export const renderChunk = ({ scene, position, map }) => {
         const mesh = new THREE.Mesh(CUBE_GEOMETRY);
         mesh.position.set(
           Number(i) + (CHUNK_SIZE * x),
-          height,
+          Math.round(height),
           Number(j) + (CHUNK_SIZE * z),
         );
         mesh.updateMatrix();

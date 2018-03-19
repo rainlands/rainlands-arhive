@@ -7,7 +7,7 @@ export const createWorldGenerator = seed => {
   const generator = new TerrainGenerator({
     seed,
     minHeight: 0,
-    maxHeight: 256,
+    maxHeight: 2,
   });
 
   generator.addPlugin(new CTGPluginDetailer(CHUNK_SIZE, 4));
