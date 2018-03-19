@@ -4,7 +4,7 @@ import euc from 'euclidean-distance';
 import {
   CHUNK_SIZE,
   RENDER_DISTANCE,
-  UNRENDER_DISTANCE,
+  UNRENDER_OFFSET,
   RENDER_TIMEOUT,
   UNRENDER_TIMEOUT,
 } from '!constants';
@@ -43,7 +43,7 @@ export const updateChunks = ({
   const { map, added, deleted } = generator.updateMap({
     userPosition: [userChunkX, 0, userChunkZ],
     renderDistance: RENDER_DISTANCE,
-    unrenderDistance: UNRENDER_DISTANCE,
+    unrenderDistance: RENDER_DISTANCE + UNRENDER_OFFSET,
   });
 
   added.forEach((coords, i) => {
