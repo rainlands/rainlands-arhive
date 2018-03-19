@@ -1,9 +1,11 @@
-export const GAME_ROOT = document.querySelector('#root');
+import { observable } from 'mobx';
 
-export const USER_SPEED = 0.15;
-export const CHUNK_SIZE = 16;
-
-export const RENDER_DISTANCE = 9;
-export const UNRENDER_DISTANCE = 11;
-export const RENDER_TIMEOUT = 100;
-export const UNRENDER_TIMEOUT = 200;
+module.exports = window.constants = observable({
+  GAME_ROOT: document.querySelector('#root'),
+  USER_SPEED: 0.15,
+  CHUNK_SIZE: 16,
+  RENDER_DISTANCE: 9,
+  UNRENDER_DISTANCE: 11,
+  RENDER_TIMEOUT: 100,
+  UNRENDER_TIMEOUT: 200,
+})
