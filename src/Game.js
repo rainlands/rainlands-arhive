@@ -53,7 +53,7 @@ export default class Game {
 
   generateMap = () => {
     this.worldGenerator = createWorldGenerator(this.seed);
-  }
+  };
 
   start = () => {
     controls.initializeControls(this.player);

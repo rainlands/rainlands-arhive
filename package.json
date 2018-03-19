@@ -17,8 +17,9 @@
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
-    "chunked-terrain-generator": "^1.0.17",
-    "ctg-plugin-detailer": "^1.0.1",
+    "chunked-terrain-generator": "^1.1.0",
+    "ctg-plugin-detailer": "^1.0.5",
+    "euclidean-distance": "^1.0.0",
     "is-negative-zero": "^2.0.0",
     "lodash": "^4.17.5",
     "noisejs": "^2.1.0",
