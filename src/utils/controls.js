@@ -4,10 +4,10 @@ import { USER_SPEED } from '!constants';
 const movement = {};
 
 const handleMove = (initial, camera, move) => {
-  initial.x += move.dx / 1.1;
+  initial.x += move.dx / 3;
 
   if (initial.y + move.dy < 90 && initial.y + move.dy > -90) {
-    initial.y += move.dy / 1.1;
+    initial.y += move.dy / 3;
   }
 
   camera.rotation.y = -(initial.x * Math.PI / 180);

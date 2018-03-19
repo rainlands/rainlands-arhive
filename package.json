@@ -24,6 +24,7 @@
     "euclidean-distance": "^1.0.0",
     "is-negative-zero": "^2.0.0",
     "lodash": "^4.17.5",
+    "microcache": "^1.0.0",
     "mobx": "^4.1.0",
     "noisejs": "^2.1.0",
     "normalize-to-range": "^2.0.0",
