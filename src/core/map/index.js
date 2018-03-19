@@ -36,9 +36,6 @@ export const updateChunks = ({
   if (userChunkZ < 0 || Object.is(userChunkZ, -0)) {
     userChunkZ -= 1;
   }
-  //
-  // console.log(userChunkX, userChunkZ);
-  // console.log(map);
 
   const { map, added, deleted } = generator.updateMap({
     userPosition: [userChunkX, 0, userChunkZ],
