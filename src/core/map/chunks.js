@@ -7,6 +7,7 @@ import GRASS_TEXTURE from '@resources/blocks/textures/grass/2.jpg';
 
 const CHUNKS_MAP = {};
 const CUBE_GEOMETRY = new THREE.BoxGeometry(1, 1, 1);
+const meshLocal = new THREE.Mesh(CUBE_GEOMETRY);
 
 export const renderChunk = ({ scene, position, map }, timeout) => {
   const geometry = new THREE.Geometry();
@@ -16,24 +17,28 @@ export const renderChunk = ({ scene, position, map }, timeout) => {
   if (!CHUNKS_MAP[x]) CHUNKS_MAP[x] = {};
   if (!CHUNKS_MAP[x][z]) {
     setTimeout(() => {
+      if (!CHUNKS_MAP[x]) CHUNKS_MAP[x] = {};
       CHUNKS_MAP[x][z] = ID;
 
       Object.keys(map).forEach((i) => {
         Object.keys(map[i]).forEach((j) => {
           const height = map[i][j];
 
-          const mesh = new THREE.Mesh(CUBE_GEOMETRY);
-          mesh.position.set(
+          meshLocal.position.set(
             Number(i) + CHUNK_SIZE * x,
             Math.round(height / 4), // divide by different numbers for every chunk
             Number(j) + CHUNK_SIZE * z,
           );
-          mesh.updateMatrix();
-          geometry.merge(mesh.geometry, mesh.matrix);
+          meshLocal.updateMatrix();
+          geometry.merge(meshLocal.geometry, meshLocal.matrix);
         });
       });
 
-      const mesh = new THREE.Mesh(geometry, loadMaterials(GRASS_TEXTURE));
+      const mesh = new THREE.Mesh(
+        new THREE.BufferGeometry().fromGeometry(geometry),
+        loadMaterials(GRASS_TEXTURE),
+      );
+      // const mesh = new THREE.Mesh(geometry, loadMaterials(GRASS_TEXTURE));
       mesh.name = ID;
 
       scene.add(mesh);
@@ -44,14 +49,17 @@ export const renderChunk = ({ scene, position, map }, timeout) => {
 export const unrenderChunk = ({ scene, position }, timeout) => {
   const { x, z } = position;
 
-  if (CHUNKS_MAP[x] && CHUNKS_MAP[x][z]) {
+  if (CHUNKS_MAP[x]) {
     const chunkName = CHUNKS_MAP[x][z];
 
     setTimeout(() => {
       const chunk = scene.getObjectByName(chunkName);
       scene.remove(chunk);
 
-      delete CHUNKS_MAP[x][z];
+      if (CHUNKS_MAP[x][z]) {
+        delete CHUNKS_MAP[x][z];
+      }
+
       if (!Object.keys(CHUNKS_MAP[x]).length) {
         delete CHUNKS_MAP[x];
       }
