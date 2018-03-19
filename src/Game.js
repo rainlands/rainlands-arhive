@@ -4,7 +4,7 @@ import Player from '@core/player';
 
 import { stats, controls, lights } from '@utils';
 import blocks from '@resources/blocks';
-import { generateWorld, updateChunks } from '@core/map';
+import { createWorldGenerator, updateChunks } from '@core/map';
 
 // constants
 import { GAME_ROOT } from '!constants';
@@ -34,6 +34,7 @@ export default class Game {
     this.renderer.render(this.scene, this.player);
 
     updateChunks({
+      generator: this.worldGenerator,
       scene: this.scene,
       userPosition: this.player.position,
       seed: this.seed,
@@ -51,7 +52,7 @@ export default class Game {
   };
 
   generateMap = () => {
-    generateWorld(this.seed);
+    this.worldGenerator = createWorldGenerator(this.seed);
   }
 
   start = () => {

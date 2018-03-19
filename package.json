@@ -1,5 +1,5 @@
 {
-  "name": "game-engine",
+  "name": "game",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,7 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
-    "chunked-terrain-generator": "^1.0.10",
+    "chunked-terrain-generator": "^1.0.13",
     "is-negative-zero": "^2.0.0",
     "lodash": "^4.17.5",
     "noisejs": "^2.1.0",
