@@ -4,7 +4,7 @@ import Player from '@core/player';
 
 import { stats, controls, lights } from '@utils';
 import blocks from '@resources/blocks';
-import { generateWorld, renderChunks } from '@core/map';
+import { generateWorld, updateChunks } from '@core/map';
 
 // constants
 import { GAME_ROOT } from '!constants';
@@ -32,7 +32,12 @@ export default class Game {
 
     controls.animateMovementTick(this.player);
     this.renderer.render(this.scene, this.player);
-    renderChunks(this.scene, this.player.position, this.seed);
+
+    updateChunks({
+      scene: this.scene,
+      userPosition: this.player.position,
+      seed: this.seed,
+    });
 
     this.stats.end();
   };

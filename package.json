@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
+    "chunked-terrain-generator": "^1.0.10",
     "is-negative-zero": "^2.0.0",
     "lodash": "^4.17.5",
     "noisejs": "^2.1.0",
@@ -39,6 +40,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
-    "pre-commit": "^1.2.2"
+    "pre-commit": "^1.2.2",
+    "prettier": "^1.11.1"
   }
 }
