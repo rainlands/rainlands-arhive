@@ -36,6 +36,7 @@ export const updateChunks = ({
   const { map, added, deleted } = generator.updateMap({
     userPosition: [userChunkX, 0, userChunkZ],
     renderDistance: 1,
+    unrenderDistance: 4,
   });
 
 
