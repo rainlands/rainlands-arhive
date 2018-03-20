@@ -42,7 +42,6 @@ export default class Game {
 
     this.stats.end();
   };
-
   // //////////////////
   // PUBLIC METHODS //
   // //////////////////
