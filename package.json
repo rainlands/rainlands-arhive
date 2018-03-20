@@ -19,7 +19,6 @@
   "license": "ISC",
   "dependencies": {
     "cannon": "^0.6.2",
-    "chunked-terrain-generator": "^1.1.0",
     "ctg-plugin-detailer": "^1.0.5",
     "euclidean-distance": "^1.0.0",
     "is-negative-zero": "^2.0.0",
@@ -32,6 +31,7 @@
     "shortid": "^2.2.8",
     "stats-js": "^1.0.0-alpha1",
     "taira": "^3.2.0",
+    "terrain-generator": "^1.0.1",
     "three": "^0.90.0"
   },
   "devDependencies": {

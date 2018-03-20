@@ -9,7 +9,7 @@ const CHUNKS_MAP = {};
 const CUBE_GEOMETRY = new THREE.BoxGeometry(1, 1, 1);
 const meshLocal = new THREE.Mesh(CUBE_GEOMETRY);
 
-export const renderChunk = ({ scene, position, map }, timeout) => {
+export const renderChunk = ({ scene, position, height }, timeout) => {
   const geometry = new THREE.Geometry();
   const { x, z } = position;
   const ID = shortid();
@@ -20,20 +20,17 @@ export const renderChunk = ({ scene, position, map }, timeout) => {
       if (!CHUNKS_MAP[x]) CHUNKS_MAP[x] = {};
       CHUNKS_MAP[x][z] = ID;
 
-      Object.keys(map).forEach((i) => {
-        Object.keys(map[i]).forEach((j) => {
-          const height = map[i][j];
-
+      for (let i = 0; i < CHUNK_SIZE; i++) {
+        for (let j = 0; j < CHUNK_SIZE; j++) {
           meshLocal.position.set(
             Number(i) + CHUNK_SIZE * x,
-            Math.round(height / 4), // divide by different numbers for every chunk
+            Math.round(height), // divide by different numbers for every chunk
             Number(j) + CHUNK_SIZE * z,
           );
           meshLocal.updateMatrix();
           geometry.merge(meshLocal.geometry, meshLocal.matrix);
-        });
-      });
-
+        }
+      }
       const mesh = new THREE.Mesh(
         new THREE.BufferGeometry().fromGeometry(geometry),
         loadMaterials(GRASS_TEXTURE),
@@ -54,7 +51,15 @@ export const unrenderChunk = ({ scene, position }, timeout) => {
 
     setTimeout(() => {
       const chunk = scene.getObjectByName(chunkName);
-      scene.remove(chunk);
+
+      if (chunk) {
+        if (chunk.geometry) chunk.geometry.dispose();
+        if (chunk.material) {
+          if (chunk.material.map) chunk.material.map.dispose();
+          chunk.material.dispose();
+        }
+        scene.remove(chunk);
+      }
 
       if (CHUNKS_MAP[x][z]) {
         delete CHUNKS_MAP[x][z];

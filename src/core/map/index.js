@@ -1,5 +1,4 @@
-import TerrainGenerator from 'chunked-terrain-generator';
-import CTGPluginDetailer from 'ctg-plugin-detailer';
+import TerrainGenerator from 'terrain-generator';
 import euc from 'euclidean-distance';
 import {
   CHUNK_SIZE,
@@ -18,8 +17,6 @@ export const createWorldGenerator = (seed) => {
     minHeight: 0,
     maxHeight: 2,
   });
-
-  generator.addPlugin(new CTGPluginDetailer(CHUNK_SIZE, 4));
 
   return generator;
 };
@@ -40,7 +37,7 @@ export const updateChunks = ({
   const { map, added, deleted } = generator.updateMap({
     userPosition: [userChunkX, 0, userChunkZ],
     renderDistance: RENDER_DISTANCE,
-    unrenderDistance: RENDER_DISTANCE + UNRENDER_OFFSET,
+    unrenderOffset: UNRENDER_OFFSET,
   });
 
   added.forEach((coords, i) => {
@@ -48,7 +45,7 @@ export const updateChunks = ({
       {
         scene,
         position: coords,
-        map: map[coords.x][coords.z],
+        height: map[coords.x][coords.z],
       },
       INITIAL_RENDERED ? i * RENDER_TIMEOUT : 0,
       // i * euc([coords.x, coords.z], [userChunkX, userChunkZ]) * 10,
