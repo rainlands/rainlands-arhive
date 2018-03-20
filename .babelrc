@@ -9,9 +9,7 @@
         "@resources": "./src/resources",
         "@utils": "./src/utils",
         "!constants": "./src/constants.js",
-        "@root": "./src",
-        "chunked-terrain-generator": "../chunked-terrain-generator",
-        "ctg-plugin-detailer": "../chunked-terrain-generator/plugins/detailer"
+        "@root": "./src"
       }
     }]
   ]

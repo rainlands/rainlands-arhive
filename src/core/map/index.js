@@ -14,8 +14,9 @@ let INITIAL_RENDERED = false;
 export const createWorldGenerator = (seed) => {
   const generator = new TerrainGenerator({
     seed,
+    detalization: 10,
     minHeight: 0,
-    maxHeight: 2,
+    maxHeight: 20,
   });
 
   return generator;
