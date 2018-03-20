@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import shortid from 'shortid';
-import { CHUNK_SIZE } from '!constants';
+import { CHUNK_SIZE } from '@constants';
 import { loadMaterials } from './materials';
 
 import GRASS_TEXTURE from '@resources/blocks/textures/grass/2.jpg';
@@ -9,7 +9,7 @@ const CHUNKS_MAP = {};
 const CUBE_GEOMETRY = new THREE.BoxGeometry(1, 1, 1);
 const meshLocal = new THREE.Mesh(CUBE_GEOMETRY);
 
-export const renderChunk = ({ scene, position, height }, timeout) => {
+export const renderChunk = ({ scene, position, chunk }, timeout) => {
   const geometry = new THREE.Geometry();
   const { x, z } = position;
   const ID = shortid();
@@ -24,7 +24,7 @@ export const renderChunk = ({ scene, position, height }, timeout) => {
         for (let j = 0; j < CHUNK_SIZE; j++) {
           meshLocal.position.set(
             Number(i) + CHUNK_SIZE * x,
-            Math.round(height), // divide by different numbers for every chunk
+            Math.round(chunk[i][j]), // divide by different numbers for every chunk
             Number(j) + CHUNK_SIZE * z,
           );
           meshLocal.updateMatrix();

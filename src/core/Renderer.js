@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GAME_ROOT } from '!constants';
+import { GAME_ROOT } from '@constants';
 
 export default () => {
   const renderer = new THREE.WebGLRenderer({

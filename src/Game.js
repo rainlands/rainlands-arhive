@@ -7,7 +7,7 @@ import blocks from '@resources/blocks';
 import { createWorldGenerator, updateChunks } from '@core/map';
 
 // constants
-import { GAME_ROOT } from '!constants';
+import { GAME_ROOT } from '@constants';
 
 export default class Game {
   constructor() {
@@ -42,6 +42,7 @@ export default class Game {
 
     this.stats.end();
   };
+  
   // //////////////////
   // PUBLIC METHODS //
   // //////////////////

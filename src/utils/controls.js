@@ -1,5 +1,5 @@
 import lock from 'pointer-lock';
-import { USER_SPEED } from '!constants';
+import { USER_SPEED } from '@constants';
 
 const movement = {};
 

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import MicroCache from 'microcache';
+
 const microCache = new MicroCache();
 
 export const loadMaterials = (materials) => {

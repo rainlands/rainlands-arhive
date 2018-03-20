@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GAME_ROOT } from '!constants';
+import { GAME_ROOT } from '@constants';
 
 export default () => {
   const aspect = GAME_ROOT.offsetWidth / GAME_ROOT.offsetHeight;

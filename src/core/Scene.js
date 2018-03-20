@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { CHUNK_SIZE, RENDER_DISTANCE } from '!constants';
+import { CHUNK_SIZE, RENDER_DISTANCE } from '@constants';
 
 export default () => {
   const scene = new THREE.Scene();

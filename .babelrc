@@ -8,7 +8,7 @@
         "@core": "./src/core",
         "@resources": "./src/resources",
         "@utils": "./src/utils",
-        "!constants": "./src/constants.js",
+        "@constants": "./src/constants.js",
         "@root": "./src"
       }
     }]

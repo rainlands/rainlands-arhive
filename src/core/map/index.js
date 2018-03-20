@@ -1,12 +1,12 @@
 import TerrainGenerator from 'terrain-generator';
-import euc from 'euclidean-distance';
+import TGPluginComposer from 'terrain-generator/plugins/composer/index';
 import {
   CHUNK_SIZE,
   RENDER_DISTANCE,
   UNRENDER_OFFSET,
   RENDER_TIMEOUT,
   UNRENDER_TIMEOUT,
-} from '!constants';
+} from '@constants';
 import { renderChunk, unrenderChunk } from './chunks';
 
 let INITIAL_RENDERED = false;
@@ -14,17 +14,25 @@ let INITIAL_RENDERED = false;
 export const createWorldGenerator = (seed) => {
   const generator = new TerrainGenerator({
     seed,
-    detalization: 10,
+    detalization: 200,
     minHeight: 0,
     maxHeight: 20,
   });
 
+  generator.addPlugin(new TGPluginComposer({
+    generator: new TerrainGenerator({
+      seed: 1,
+      detalization: 100,
+      minHeight: 0,
+      maxHeight: 20,
+    }),
+    detalization: CHUNK_SIZE,
+  }));
+
   return generator;
 };
 
-export const updateChunks = ({
-  generator, userPosition, seed, scene,
-}) => {
+export const updateChunks = ({ generator, userPosition, scene }) => {
   let userChunkX = Number((userPosition.x / CHUNK_SIZE).toFixed(0));
   let userChunkZ = Number((userPosition.z / CHUNK_SIZE).toFixed(0));
 
@@ -41,27 +49,30 @@ export const updateChunks = ({
     unrenderOffset: UNRENDER_OFFSET,
   });
 
-  added.forEach((coords, i) => {
-    renderChunk(
-      {
-        scene,
-        position: coords,
-        height: map[coords.x][coords.z],
-      },
-      INITIAL_RENDERED ? i * RENDER_TIMEOUT : 0,
-      // i * euc([coords.x, coords.z], [userChunkX, userChunkZ]) * 10,
-    );
+
+  Object.keys(added).forEach((x) => {
+    Object.keys(added[x]).forEach((z) => {
+      renderChunk(
+        {
+          scene,
+          position: { x, z },
+          chunk: added[x][z],
+        },
+        INITIAL_RENDERED ? x * z * RENDER_TIMEOUT : 0,
+      );
+    });
   });
 
-  deleted.forEach((coords, i) => {
-    unrenderChunk(
-      {
-        scene,
-        position: coords,
-      },
-      i * UNRENDER_TIMEOUT,
-      // i * (300 - euc([coords.x, coords.z], [userChunkX, userChunkZ]) * 10),
-    );
+  Object.keys(deleted).forEach((x) => {
+    Object.keys(deleted[x]).forEach((z) => {
+      unrenderChunk(
+        {
+          scene,
+          position: { x, z },
+        },
+        x * z * UNRENDER_TIMEOUT,
+      );
+    });
   });
 
   if (!INITIAL_RENDERED) {
