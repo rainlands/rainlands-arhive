@@ -1,9 +1,9 @@
 export default {
-  1: {
+  0: {
     name: 'Stone',
-    texture: require('./textures/stone/1.jpg'),
+    texture: require('./textures/grass/3.jpg'),
   },
-  2: {
+  1: {
     name: 'Grass',
     texture: require('./textures/grass/2.jpg'),
   },

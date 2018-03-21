@@ -31,7 +31,7 @@ export const createWorldGenerator = (seed) => {
 
   const biomesGenerator = new TerrainGenerator({
     seed,
-    detalization: 200,
+    detalization: 100,
     minHeight: 0,
     maxHeight: 20,
   });
@@ -39,7 +39,7 @@ export const createWorldGenerator = (seed) => {
   biomesGenerator.addPlugin(new TGPluginComposer({
     generator: new TerrainGenerator({
       seed: Math.random(),
-      detalization: 100,
+      detalization: 300,
       minHeight: 0,
       maxHeight: 1,
     }),
@@ -80,7 +80,7 @@ export const updateChunks = ({ generator, userPosition, scene }) => {
       renderChunk(
         {
           scene,
-          position: { x, z },
+          position: [x, z],
           chunk: heightMap.added[x][z],
           chunkBiomes: biomesMap.added[x][z],
         },
@@ -94,7 +94,7 @@ export const updateChunks = ({ generator, userPosition, scene }) => {
       unrenderChunk(
         {
           scene,
-          position: { x, z },
+          position: [x, z ],
         },
         x * z * UNRENDER_TIMEOUT,
       );
