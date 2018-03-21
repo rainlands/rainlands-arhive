@@ -77,8 +77,8 @@ export const unrenderChunk = ({ scene, position }) => {
       if (object) {
         if (object.geometry) object.geometry.dispose();
         if (object.material) {
-          if (object.material.map) object.material.map.dispose();
-          object.material.dispose();
+          if (object.material.map && object.material.map.dispose) object.material.map.dispose();
+          object.material.dispose && object.material.dispose();
         }
         scene.remove(object);
       }

@@ -9,7 +9,9 @@
         "@resources": "./src/resources",
         "@utils": "./src/utils",
         "@constants": "./src/constants.js",
-        "@root": "./src"
+        "@root": "./src",
+        "terrain-generator": "../terrain-generator/index",
+        "terrain-generator-plugin-composer": "../terrain-generator/plugins/composer/index.js"
       }
     }]
   ]

@@ -1,5 +1,5 @@
 import TerrainGenerator from 'terrain-generator';
-import TGPluginComposer from 'terrain-generator/plugins/composer/index';
+import TGPluginComposer from 'terrain-generator-plugin-composer';
 import {
   CHUNK_SIZE,
   RENDER_DISTANCE,
@@ -14,7 +14,7 @@ let INITIAL_RENDERED = false;
 export const createWorldGenerator = (seed) => {
   const heightGenerator = new TerrainGenerator({
     seed,
-    detalization: 200,
+    detalization: 100,
     minHeight: 0,
     maxHeight: 1,
   });
@@ -22,9 +22,9 @@ export const createWorldGenerator = (seed) => {
   heightGenerator.addPlugin(new TGPluginComposer({
     generator: new TerrainGenerator({
       seed: Math.random(),
-      detalization: 100,
-      minHeight: 0,
-      maxHeight: 30,
+      detalization: 200,
+      minHeight: -35,
+      maxHeight: 35,
     }),
     detalization: CHUNK_SIZE,
   }));
@@ -39,9 +39,9 @@ export const createWorldGenerator = (seed) => {
   biomesGenerator.addPlugin(new TGPluginComposer({
     generator: new TerrainGenerator({
       seed: Math.random(),
-      detalization: 250,
-      minHeight: 0,
-      maxHeight: 1,
+      detalization: 1000,
+      minHeight: -2,
+      maxHeight: 7,
     }),
     detalization: CHUNK_SIZE,
   }));
