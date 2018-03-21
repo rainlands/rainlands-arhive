@@ -9,7 +9,7 @@ const CHUNKS_MAP = {};
 const CUBE_GEOMETRY = new THREE.BoxGeometry(1, 1, 1);
 const meshLocal = new THREE.Mesh(CUBE_GEOMETRY);
 
-export const renderChunk = ({ scene, position, chunk }, timeout) => {
+export const renderChunk = ({ scene, position, chunk, chunkBiomes }, timeout) => {
   const geometry = new THREE.Geometry();
   const { x, z } = position;
   const ID = shortid();
@@ -20,8 +20,11 @@ export const renderChunk = ({ scene, position, chunk }, timeout) => {
       if (!CHUNKS_MAP[x]) CHUNKS_MAP[x] = {};
       CHUNKS_MAP[x][z] = ID;
 
+
       for (let i = 0; i < CHUNK_SIZE; i++) {
         for (let j = 0; j < CHUNK_SIZE; j++) {
+          const biome = Math.round(chunkBiomes[i][j]);
+
           meshLocal.position.set(
             Number(i) + CHUNK_SIZE * x,
             Math.round(chunk[i][j]), // divide by different numbers for every chunk

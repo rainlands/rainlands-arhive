@@ -12,16 +12,16 @@ import { renderChunk, unrenderChunk } from './chunks';
 let INITIAL_RENDERED = false;
 
 export const createWorldGenerator = (seed) => {
-  const generator = new TerrainGenerator({
+  const heightGenerator = new TerrainGenerator({
     seed,
     detalization: 200,
     minHeight: 0,
     maxHeight: 20,
   });
 
-  generator.addPlugin(new TGPluginComposer({
+  heightGenerator.addPlugin(new TGPluginComposer({
     generator: new TerrainGenerator({
-      seed: 1,
+      seed: Math.random(),
       detalization: 100,
       minHeight: 0,
       maxHeight: 20,
@@ -29,7 +29,27 @@ export const createWorldGenerator = (seed) => {
     detalization: CHUNK_SIZE,
   }));
 
-  return generator;
+  const biomesGenerator = new TerrainGenerator({
+    seed,
+    detalization: 200,
+    minHeight: 0,
+    maxHeight: 20,
+  });
+
+  biomesGenerator.addPlugin(new TGPluginComposer({
+    generator: new TerrainGenerator({
+      seed: Math.random(),
+      detalization: 100,
+      minHeight: 0,
+      maxHeight: 1,
+    }),
+    detalization: CHUNK_SIZE,
+  }));
+
+  return {
+    height: heightGenerator,
+    biomes: biomesGenerator,
+  };
 };
 
 export const updateChunks = ({ generator, userPosition, scene }) => {
@@ -43,28 +63,34 @@ export const updateChunks = ({ generator, userPosition, scene }) => {
     userChunkZ -= 1;
   }
 
-  const { map, added, deleted } = generator.updateMap({
+  const heightMap = generator.height.updateMap({
     userPosition: [userChunkX, 0, userChunkZ],
     renderDistance: RENDER_DISTANCE,
     unrenderOffset: UNRENDER_OFFSET,
   });
 
+  const biomesMap = generator.biomes.updateMap({
+    userPosition: [userChunkX, 0, userChunkZ],
+    renderDistance: RENDER_DISTANCE,
+    unrenderOffset: UNRENDER_OFFSET,
+  });
 
-  Object.keys(added).forEach((x) => {
-    Object.keys(added[x]).forEach((z) => {
+  Object.keys(heightMap.added).forEach((x) => {
+    Object.keys(heightMap.added[x]).forEach((z) => {
       renderChunk(
         {
           scene,
           position: { x, z },
-          chunk: added[x][z],
+          chunk: heightMap.added[x][z],
+          chunkBiomes: biomesMap.added[x][z],
         },
         INITIAL_RENDERED ? x * z * RENDER_TIMEOUT : 0,
       );
     });
   });
 
-  Object.keys(deleted).forEach((x) => {
-    Object.keys(deleted[x]).forEach((z) => {
+  Object.keys(heightMap.deleted).forEach((x) => {
+    Object.keys(heightMap.deleted[x]).forEach((z) => {
       unrenderChunk(
         {
           scene,
