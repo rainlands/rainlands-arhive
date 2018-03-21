@@ -6,8 +6,11 @@ import { loadMaterials } from './materials';
 const GEOMETRY = new THREE.Geometry();
 const CUBE_GEOMETRY = new THREE.BoxGeometry(1, 1, 1);
 const CHUNKS_NAMES = {};
+const mesh = new THREE.Mesh(CUBE_GEOMETRY);
 
-export const renderChunk = ({ scene, position, chunk, chunkBiomes }) => {
+export const renderChunk = ({
+  scene, position, chunk, chunkBiomes,
+}, timeout) => {
   const [x, z] = position;
   const layers = {};
 
@@ -15,52 +18,57 @@ export const renderChunk = ({ scene, position, chunk, chunkBiomes }) => {
     for (let j = 0; j < CHUNK_SIZE; j++) {
       const biome = Math.round(chunkBiomes[i][j]);
 
-
-      const meshPosition = [
-          Number(i) + CHUNK_SIZE * x,
-          Math.round(chunk[i][j]), // divide by different numbers for every chunk
-          Number(j) + CHUNK_SIZE * z,
-      ]
+      mesh.position.set(
+        Number(i) + CHUNK_SIZE * x,
+        Math.round(chunk[i][j]), // divide by different numbers for every chunk
+        Number(j) + CHUNK_SIZE * z,
+      );
+      mesh.updateMatrix();
 
       if (!layers[biome]) {
         const geometry = new THREE.Geometry();
-        const mesh = new THREE.Mesh(CUBE_GEOMETRY);
         const materials = loadMaterials(biome);
 
-        mesh.position.set(...meshPosition)
-
-        mesh.updateMatrix();
         geometry.merge(mesh.geometry, mesh.matrix);
 
         layers[biome] = {
           geometry,
           materials,
-        }
+        };
       } else {
-        const mesh = new THREE.Mesh(CUBE_GEOMETRY);
-        mesh.position.set(...meshPosition)
-
-        mesh.updateMatrix();
         layers[biome].geometry.merge(mesh.geometry, mesh.matrix);
       }
     }
   }
 
-  Object.values(layers).map((layer) => {
-    const mesh = new THREE.Mesh(layer.geometry, layer.materials);
-    const meshName = shortID();
+  const toRender = [];
 
+  Object.values(layers).map((layer) => {
+    const mesh = new THREE.Mesh(
+      new THREE.BufferGeometry().fromGeometry(layer.geometry),
+      layer.materials,
+    );
+    const meshName = shortID();
     mesh.name = meshName;
-    scene.add(mesh);
+
+    toRender.push(mesh);
 
     if (!CHUNKS_NAMES[x]) CHUNKS_NAMES[x] = {};
     if (!CHUNKS_NAMES[x][z]) CHUNKS_NAMES[x][z] = [meshName];
     else CHUNKS_NAMES[x][z].push(meshName);
   });
-}
+
+  setTimeout(() => {
+    toRender.forEach((mesh) => {
+      if (CHUNKS_NAMES[x] && CHUNKS_NAMES[x][z]) {
+        scene.add(mesh);
+      }
+    })
+  }, timeout);
+};
 
 export const unrenderChunk = ({ scene, position }) => {
-  const [ x, z ] = position;
+  const [x, z] = position;
 
   CHUNKS_NAMES[x][z].forEach((name) => {
     const object = scene.getObjectByName(name);
@@ -75,7 +83,7 @@ export const unrenderChunk = ({ scene, position }) => {
         scene.remove(object);
       }
     }
-  })
+  });
 
   if (CHUNKS_NAMES[x][z]) {
     delete CHUNKS_NAMES[x][z];
@@ -84,4 +92,4 @@ export const unrenderChunk = ({ scene, position }) => {
   if (!Object.keys(CHUNKS_NAMES[x]).length) {
     delete CHUNKS_NAMES[x];
   }
-}
+};

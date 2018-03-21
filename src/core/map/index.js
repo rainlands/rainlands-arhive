@@ -16,7 +16,7 @@ export const createWorldGenerator = (seed) => {
     seed,
     detalization: 200,
     minHeight: 0,
-    maxHeight: 20,
+    maxHeight: 1,
   });
 
   heightGenerator.addPlugin(new TGPluginComposer({
@@ -24,7 +24,7 @@ export const createWorldGenerator = (seed) => {
       seed: Math.random(),
       detalization: 100,
       minHeight: 0,
-      maxHeight: 20,
+      maxHeight: 30,
     }),
     detalization: CHUNK_SIZE,
   }));
@@ -33,13 +33,13 @@ export const createWorldGenerator = (seed) => {
     seed,
     detalization: 100,
     minHeight: 0,
-    maxHeight: 20,
+    maxHeight: 1,
   });
 
   biomesGenerator.addPlugin(new TGPluginComposer({
     generator: new TerrainGenerator({
       seed: Math.random(),
-      detalization: 300,
+      detalization: 250,
       minHeight: 0,
       maxHeight: 1,
     }),
@@ -65,13 +65,13 @@ export const updateChunks = ({ generator, userPosition, scene }) => {
 
   const heightMap = generator.height.updateMap({
     userPosition: [userChunkX, 0, userChunkZ],
-    renderDistance: RENDER_DISTANCE,
+    renderDistance: INITIAL_RENDERED ? RENDER_DISTANCE : RENDER_DISTANCE + UNRENDER_OFFSET,
     unrenderOffset: UNRENDER_OFFSET,
   });
 
   const biomesMap = generator.biomes.updateMap({
     userPosition: [userChunkX, 0, userChunkZ],
-    renderDistance: RENDER_DISTANCE,
+    renderDistance: INITIAL_RENDERED ? RENDER_DISTANCE : RENDER_DISTANCE + UNRENDER_OFFSET,
     unrenderOffset: UNRENDER_OFFSET,
   });
 
