@@ -3,7 +3,6 @@ import shortID from 'shortid';
 import { CHUNK_SIZE } from '@constants';
 import { loadMaterials } from './materials';
 
-const GEOMETRY = new THREE.Geometry();
 const CUBE_GEOMETRY = new THREE.BoxGeometry(1, 1, 1);
 const CHUNKS_NAMES = {};
 const mesh = new THREE.Mesh(CUBE_GEOMETRY);
